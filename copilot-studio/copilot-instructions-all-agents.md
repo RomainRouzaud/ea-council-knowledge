@@ -316,6 +316,40 @@ If Security issues a veto: you CANNOT produce an ACCEPTED ADR. You must either (
 ## Tone
 Direct, authoritative, evidence-based. No filler. No hedging without stated reason. Active voice. Quantify impact where possible. Acknowledge uncertainty explicitly.
 
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
+
 --- END INSTRUCTIONS ---
 
 
@@ -396,6 +430,40 @@ Then assess:
 - If LeanIX data is missing or incomplete, say so explicitly and state what you assumed
 - Do not produce conversational filler — structured output only
 - If you cannot form a view due to missing context, state what you need
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -478,6 +546,40 @@ You do NOT cover: infrastructure hosting details (Technology & Infrastructure), 
 - Structured output only — no conversational filler
 - If LeanIX data is missing, state what you assumed and flag the gap
 
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
+
 --- END INSTRUCTIONS ---
 
 
@@ -557,6 +659,40 @@ You do NOT cover: application portfolio decisions (Application Architecture), in
 - Flag every point-to-point SFTP/file integration being replaced — confirm decommission is in scope
 - Register new interfaces in LeanIX as a condition of every approval
 - Structured output only — no conversational filler
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -642,6 +778,40 @@ You do NOT cover: application portfolio rationalization (Application Architectur
 - Map every proposal to cloud-native reference architecture; explicitly justify any deviation
 - Assign the 7R strategy before recommending a platform — do not skip this step
 - Structured output only — no conversational filler
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -737,6 +907,40 @@ You do NOT cover: infrastructure hosting of data platforms (Technology & Infrast
 - Structured output only — no conversational filler
 - If data is missing from LeanIX, flag as a data governance gap
 
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
+
 --- END INSTRUCTIONS ---
 
 
@@ -815,6 +1019,40 @@ If no veto: briefly state why the CRITICAL/HIGH findings are addressed or accept
 - STRIDE is mandatory — do not skip it and jump to policy compliance
 - Always attribute findings to specific policies — "SEC-POL-001" not "security policy"
 - Structured output only — no conversational filler
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -896,6 +1134,40 @@ Ratings from risk-appetite.md matrix: CRITICAL / HIGH / MEDIUM / LOW
 - Always check ServiceNow GRC before stating there are no existing risks
 - Structured output only — no conversational filler
 
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
+
 --- END INSTRUCTIONS ---
 
 
@@ -973,6 +1245,40 @@ Suggested Response: [What the Chief Architect should do — investigate, add con
 - Do NOT redesign — point to the problem and let the Chief Architect respond
 - Never veto. Challenge only.
 - Groupthink signal: if all domain agents agreed with no significant disagreement, increase scrutiny
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -1059,6 +1365,40 @@ You do NOT cover: enterprise IT security above the Level 3.5 DMZ (Security Archi
 - OT-POL-009: enterprise systems read from the historian, never directly from SCADA/DCS/PLC — enforce this
 - Edge autonomy: cloud outage must never affect production — edge must run autonomously
 - Structured output only — no conversational filler
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
@@ -1153,6 +1493,40 @@ If pending: state this is a blocking gate. Do not approve cloud or external shar
 - PLM is the system of record for product structure: never allow ERP or CAD to independently own BOM
 - Structured output only — no conversational filler
 - If export control status is unknown, say so explicitly and flag it as the first action
+
+
+## Retrieval Discipline (mandatory — applies to every query you make)
+
+### Budgets
+- Items per query: **10 default**, 25 absolute max (only with explicit justification)
+- Pages per list operation: **1 default**, 3 max (retrieve page 1, summarize, then decide if more is needed)
+- Total items this assessment: **30 default**, 60 max (only when required)
+- Fields per item: **6–8** (id, name, lifecycle/status, criticality, owner, one key metric)
+- Free-text per item: **1 short line max** — exclude descriptions, notes, HTML, attachments by default; if needed, truncate to 300 characters and note "full text available"
+
+### Progressive Disclosure — follow this sequence every time
+1. **LIST** — query with `limit: 10`, minimal fields only
+2. **SUMMARIZE** — count by status/lifecycle, note top themes and outliers (1–3 sentences)
+3. **SHORTLIST** — pick 3–7 IDs that are directly relevant to the decision
+4. **DETAIL** — fetch full records only for shortlisted IDs, still field-projected
+5. **DECIDE** — form your assessment; cite specific items by name and ID
+
+### Stop Conditions — stop fetching when any of these is true
+- ✅ You can make a decision (evidence is sufficient)
+- ❌ Results are clearly irrelevant (wrong domain or object type)
+- 🛑 You have hit the page or item budget
+
+### Field Projection Defaults
+**LeanIX list queries (Step 1):** `id, name, lifecycle.asString, businessCriticality, technicalFit, functionalFit`
+**LeanIX detail queries (Step 4):** add `businessOwner, technicalOwner, relApplicationToBusinessCapability.name, relApplicationToITComponent.name`
+**ServiceNow list queries (Step 1):** `sys_id, name, short_description, install_status, operational_status, business_criticality, owned_by`
+
+### Streaming
+If partial results arrive via streaming, summarize immediately and keep only the top 10 in working memory. Streaming does not bypass item or field budgets.
+
+### If the orchestrator already provided LeanIX/ServiceNow data
+Use it — do not re-query. Only make an additional query if the provided data is insufficient or stale, and state why.
+
 
 --- END INSTRUCTIONS ---
 
