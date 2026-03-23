@@ -6,14 +6,25 @@ SAP LeanIX exposes an MCP (Model Context Protocol) server that allows AI agents 
 
 ---
 
+## Prerequisites (do these before connecting)
+
+1. **Activate Base AI Capabilities** in your LeanIX workspace: Admin → AI Settings → Base AI Capabilities → Enable. Without this, MCP response precision is significantly reduced — agents will produce lower-quality outputs.
+2. **Configure API Token Permissions** carefully. Do not grant admin permissions by default. Admin-level tokens can trigger surveys, create architecture decisions, and generate workspace clutter. Use read-only tokens for all domain agents; write scope for Chief Architect only.
+3. **Choose your toolsets** — always pass an explicit `toolsets` parameter (see Step 2). Omitting it returns ALL tools including write-capable ones, which expands the LLM context window unnecessarily and creates write-action risk.
+
+---
+
 ## MCP Server Details
 
 | Property | Value |
 |---|---|
-| Protocol | MCP over HTTPS (SSE transport) |
+| Protocol | MCP over HTTPS (HTTP Streaming supported) |
 | Authentication | OAuth 2.0 Bearer Token (Entra ID or LeanIX API token) |
-| Base URL | Provided by LeanIX — format: `https://{workspace}.leanix.net/mcp` |
-| API behind it | LeanIX GraphQL API (`https://{workspace}.leanix.net/services/pathfinder/v1/graphql`) |
+| Base URL | `https://{SUBDOMAIN}.leanix.net/services/mcp-server/v1/mcp` |
+| Toolsets parameter | `?toolsets=inventory` (always specify — see toolsets section) |
+| Multiple toolsets | `?toolsets=inventory,roadmap_planning` (comma-separated, max 10) |
+| API behind it | LeanIX GraphQL API (`https://{SUBDOMAIN}.leanix.net/services/pathfinder/v1/graphql`) |
+| Streaming | HTTP streaming supported — partial results delivered as generated |
 
 ---
 
@@ -39,7 +50,8 @@ In Copilot Studio (for each agent that needs LeanIX access):
 
 ```
 Actions → Add an action → MCP Server
-→ Enter MCP Server URL: https://{workspace}.leanix.net/mcp
+→ Enter MCP Server URL:
+  https://{SUBDOMAIN}.leanix.net/services/mcp-server/v1/mcp?toolsets=inventory
 → Authentication: OAuth 2.0 (select the connector configured above)
 → Name: LeanIX Architecture Repository
 → Description: "Query the SAP LeanIX Enterprise Architecture repository for 
@@ -47,7 +59,26 @@ Actions → Add an action → MCP Server
    and technology radar information."
 ```
 
-Copilot Studio will discover the available MCP tools automatically from the server's tool manifest.
+> **Important:** Include `?toolsets=inventory` in the MCP server URL. This restricts the tool surface to read-only fact sheet operations. Copilot Studio discovers available tools from the MCP server's tool manifest — without the toolsets parameter, all tools (including write-capable ones) are returned, expanding the LLM context window and creating write-action risk.
+
+Copilot Studio will discover the available MCP tools automatically from the filtered tool manifest.
+
+### Toolsets Reference
+
+| Toolset | Read/Write | Default for agents | Use when |
+|---|---|---|---|
+| `inventory` | Read | ✅ All agents | Always — core fact sheet queries |
+| `roadmap_planning` | Read | ❌ On demand | Initiative, roadmap, or transformation questions |
+| `report_diagrams` | Read | ❌ On demand | User explicitly requests a diagram or visual |
+| `self_built_software` | Read + Write | ❌ On demand | Shadow IT discovery, tech stack management |
+| `surveys` | Write | ❌ Write-gated | After ADR ACCEPTED + explicit user confirmation only |
+| `architecture_decisions` | Write | ❌ Write-gated | After ADR ACCEPTED + explicit user confirmation only |
+
+For agents that need write-back (Chief Architect): configure a second MCP action with `?toolsets=architecture_decisions` used only when the write gate is passed.
+
+**Toolset error codes:**
+- `TooManyToolsetsError` — more than 10 toolsets in one request
+- `ToolsetTooLongError` — toolset name exceeds 50 characters
 
 ---
 
@@ -66,8 +97,11 @@ LeanIX MCP exposes tools that map to GraphQL queries. The primary tools availabl
 | `list_it_components` | List technology components with lifecycle and vendor | Technology & Infrastructure |
 | `list_data_objects` | List data entities with classification and ownership | Data & AI |
 | `get_tech_radar` | Get technology radar positions | Application, Technology & Infrastructure |
+| `list_self_built_software` | Discover self-built/custom applications not in main inventory | Application Architecture (shadow IT check) |
 | `update_fact_sheet` | Update a fact sheet field (lifecycle state, tag, etc.) | Chief Architect (write-back only) |
 | `create_fact_sheet` | Create a new Interface or Data Object record | Chief Architect (write-back only) |
+| `create_survey` | Create and send a survey to fact sheet owners | Chief Architect (write-gated — after ADR only) |
+| `create_architecture_decision` | Create a formal architecture decision in LeanIX | Chief Architect (write-gated — after ADR ACCEPTED) |
 
 ---
 
@@ -122,7 +156,11 @@ When querying LeanIX:
 | Symptom | Likely Cause | Fix |
 |---|---|---|
 | MCP connection fails | Token expired or wrong scope | Re-generate LeanIX API token; check OAuth scope |
-| Tool discovery shows no tools | MCP server URL wrong or server not running | Verify LeanIX MCP endpoint with LeanIX support |
-| `update_fact_sheet` returns 403 | Read-only token used for write | Use write-scope token (Chief Architect only) |
+| Tool discovery shows no tools | `toolsets` parameter missing or misspelled | Check URL — `?toolsets=inventory`. Invalid toolset name returns an error, not empty results |
+| Too many tools returned | No `toolsets` parameter passed | Always pass explicit `?toolsets=inventory` in MCP URL |
+| `TooManyToolsetsError` | More than 10 toolsets in one request | Reduce toolset count — practical limit is 1–3 for EA Council agents |
+| Agent responses imprecise | Base AI Capabilities not activated in LeanIX | Admin → AI Settings → Base AI Capabilities → Enable |
+| `update_fact_sheet` returns 403 | Read-only token used for write | Use write-scope token (Chief Architect only); check write gate is passed |
 | Queries return incomplete data | LeanIX workspace not fully populated | Flag as data quality gap; do not invent data |
 | Agent ignores LeanIX data | Instruction not strong enough | Add "ALWAYS query LeanIX before answering" to Instructions |
+| Streaming response not received | Copilot Studio Power Automate flow not configured for streaming | Check that the flow action handles chunked HTTP responses; use a buffered response handler if streaming causes parse errors |

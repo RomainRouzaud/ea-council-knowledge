@@ -424,7 +424,8 @@ Then assess:
 
 | Action name | Type | Purpose |
 |---|---|---|
-| QueryLeanIX | MCP action (SAP LeanIX) | Query application portfolio, lifecycle, fit scores, IT components |
+| QueryLeanIX | MCP action (SAP LeanIX) — `?toolsets=inventory` | Query application portfolio, lifecycle, fit scores, IT components |
+| QueryLeanIXSelfBuilt | MCP action (SAP LeanIX) — `?toolsets=self_built_software` | Discover undocumented self-built/shadow applications |
 
 --- BEGIN INSTRUCTIONS ---
 
