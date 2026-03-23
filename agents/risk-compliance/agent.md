@@ -74,9 +74,8 @@ You are not a "no" machine. You identify the risk clearly, quantify it where pos
 |---|---|
 | **GDPR** | Any processing of EU personal data |
 | **NIS2** | Critical infrastructure and essential services |
-| **DORA** | Financial sector digital operational resilience |
-| **SOX** | Financial reporting systems (if applicable) |
-| **PCI-DSS** | Payment card data handling |
+| **TISAX** | Automotive information security assessments recognized and shared via ENX |
+| **IFRS** | Financial reporting systems (if applicable) |
 | **ISO 27001** | Information security management |
 | **EU AI Act** | AI systems (coordinate with Data & AI agent) |
 | **Local data protection laws** | Based on jurisdictions of operation |
