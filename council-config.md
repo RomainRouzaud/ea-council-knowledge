@@ -16,6 +16,8 @@ This council is a multi-agent AI system that simulates a functioning Enterprise 
 | Data & AI | Domain Agent | Advisory | Data governance, AI/ML strategy |
 | Security Architecture | Cross-Cut Agent | Governance | Threat modeling, zero-trust — **veto power** |
 | Risk Management & Compliance | Cross-Cut Agent | Governance | Regulatory, risk appetite — **escalation power** |
+| Manufacturing & OT Architecture | Domain Agent | Advisory | IT/OT convergence, MES, SCADA, IIoT, IEC 62443 |
+| R&D & EDA Architecture | Domain Agent | Advisory | EDA, CAD/CAE, PLM, HPC, IP protection, export control |
 | Red Team | Cross-Cut Agent | Challenge | Adversarial review, assumption testing |
 
 ## Authority Model
