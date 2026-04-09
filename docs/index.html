@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EA Council — Enterprise Architecture Board</title>
+    <meta name="description" content="Multi-agent AI Enterprise Architecture Council — 10 specialist domain agents orchestrated by a Chief Architect for structured, evidence-based architectural decisions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ─── SIDEBAR NAV ─── -->
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="url(#g1)" stroke-width="2.5"/><path d="M12 20h16M20 12v16M14 14l12 12M26 14L14 26" stroke="url(#g1)" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><circle cx="20" cy="20" r="5" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs></svg>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">EA Council</span>
+                    <span class="logo-sub">Architecture Board</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">◉</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-page="council">
+                <span class="nav-icon">⬡</span>
+                <span>Council Config</span>
+            </a>
+
+            <div class="nav-section-label">Orchestration</div>
+            <a href="#" class="nav-item" data-page="chief-architect">
+                <span class="nav-icon">♛</span>
+                <span>Chief Architect</span>
+            </a>
+            <a href="#" class="nav-item" data-page="deliberation">
+                <span class="nav-icon">⟳</span>
+                <span>Deliberation Protocol</span>
+            </a>
+            <a href="#" class="nav-item" data-page="routing">
+                <span class="nav-icon">⇄</span>
+                <span>Routing Rules</span>
+            </a>
+            <a href="#" class="nav-item" data-page="escalation">
+                <span class="nav-icon">△</span>
+                <span>Escalation Matrix</span>
+            </a>
+
+            <div class="nav-section-label">Domain Agents</div>
+            <a href="#" class="nav-item" data-page="agent-business">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Business Architecture</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-application">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Application Architecture</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-integration">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Integration Architecture</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-techinfra">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Tech & Infrastructure</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-dataai">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Data & AI</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-manufacturing">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>Manufacturing & OT</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-rdeda">
+                <span class="nav-icon agent-dot domain">●</span>
+                <span>R&D & EDA</span>
+            </a>
+
+            <div class="nav-section-label">Cross-Cut Agents</div>
+            <a href="#" class="nav-item" data-page="agent-security">
+                <span class="nav-icon agent-dot crosscut">●</span>
+                <span>Security Architecture</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-risk">
+                <span class="nav-icon agent-dot crosscut">●</span>
+                <span>Risk & Compliance</span>
+            </a>
+            <a href="#" class="nav-item" data-page="agent-redteam">
+                <span class="nav-icon agent-dot challenge">●</span>
+                <span>Red Team</span>
+            </a>
+
+            <div class="nav-section-label">Knowledge Base</div>
+            <a href="#" class="nav-item" data-page="principles">
+                <span class="nav-icon">◈</span>
+                <span>Architecture Principles</span>
+            </a>
+            <a href="#" class="nav-item" data-page="tech-radar">
+                <span class="nav-icon">◎</span>
+                <span>Tech Radar</span>
+            </a>
+            <a href="#" class="nav-item" data-page="glossary">
+                <span class="nav-icon">≡</span>
+                <span>Glossary</span>
+            </a>
+            <a href="#" class="nav-item" data-page="connectors">
+                <span class="nav-icon">⬥</span>
+                <span>Connectors</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main id="main-content" class="main-content">
+        <header class="top-bar">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="breadcrumb" id="breadcrumb">Dashboard</div>
+            <div class="top-actions">
+                <div class="status-badge online">
+                    <span class="status-dot"></span>
+                    11 Agents Online
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area" id="content-area">
+            <!-- Pages will be injected here by JS -->
+        </div>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
